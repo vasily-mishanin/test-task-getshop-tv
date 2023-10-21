@@ -7,7 +7,7 @@ type StartBannerProps = {
 function StartBanner({ bannerImgUrl, isVisible, onClick }: StartBannerProps) {
   return (
     <aside
-      className={`absolute bottom-[145px] right-[10px] transition-opacity duration-300 ${
+      className={`absolute bottom-[145px] right-[10px] cursor-pointer transition-opacity duration-300 ${
         isVisible ? ' opacity-100' : ' opacity-0'
       } `}
       onClick={onClick}
