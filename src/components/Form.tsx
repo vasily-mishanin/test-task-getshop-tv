@@ -5,7 +5,13 @@ import CheckBox from './ui/CheckBox';
 
 function Form() {
   const [enteredNumber, setEnteredNumber] = useState('');
-  console.log({ enteredNumber });
+  const [agree, setAgree] = useState(false);
+
+  console.log({ enteredNumber, agree });
+
+  const handleAgree = () => {
+    setAgree((prev) => !prev);
+  };
 
   const handleInput = (value: string) => {
     setEnteredNumber(value);
@@ -72,8 +78,9 @@ function Form() {
       </div>
       <CheckBox
         id='personalDataAgree'
-        name='pdAgree'
+        name='personalDataAgree'
         label='Согласие на обработку персональных данных'
+        onClick={handleAgree}
       />
       <Button buttonType='submit' disabled>
         <span>ПОДТВЕРДИТЬ НОМЕР</span>

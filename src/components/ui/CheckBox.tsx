@@ -4,6 +4,7 @@ type CheckBoxProps = {
   id: string;
   name: string;
   label: string;
+  onClick: () => void;
 };
 
 const checkMark = (
@@ -33,12 +34,23 @@ const checkMark = (
   </svg>
 );
 
-function CheckBox({ id, name, label }: CheckBoxProps) {
+function CheckBox({ id, name, label, onClick }: CheckBoxProps) {
   const [checked, setChecked] = useState(false);
+
+  const handleCheck = () => {
+    setChecked((prev) => !prev);
+    onClick();
+  };
 
   return (
     <div className='mb-3'>
-      <input className='hidden w-0' name={name} id={id} type='checkbox' />
+      <input
+        className='hidden w-0'
+        name={name}
+        id={id}
+        type='checkbox'
+        onChange={handleCheck}
+      />
       <label
         className='flex gap-5 text-sm py-[6px] px-[10px] hover:cursor-pointer'
         htmlFor={id}
