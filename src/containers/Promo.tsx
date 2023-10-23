@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import StartPage from '../components/pages/StartPage';
-import CTAPage from '../components/pages/CTAPage';
+import StartScreen from '../components/screens/StartScreen';
+import CTAScreen from '../components/screens/CTAScreen';
 
 function Promo() {
   const [videoTimestamp, setVideoTimestamp] = useState(0);
@@ -28,12 +28,12 @@ function Promo() {
   return (
     <div className={'relative w-[1280px] h-[720px]' + backgroundImage}>
       {pageNumber === 1 && (
-        <StartPage
+        <StartScreen
           onClick={handleBannerClick}
           videoTimestamp={videoTimestamp || nextVideoTimestamp}
         />
       )}
-      {pageNumber === 2 && <CTAPage onClose={handleClose} />}
+      {pageNumber === 2 && <CTAScreen onClose={handleClose} />}
     </div>
   );
 }

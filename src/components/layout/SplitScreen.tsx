@@ -1,13 +1,19 @@
 export type SplitScreenProps = {
-  children: JSX.Element[];
+  fullHeight?: boolean;
   leftWeight?: number | string;
   rightWeight?: number | string;
+  leftHeight?: number | string;
+  rightHeight?: number | string;
+  children: JSX.Element[];
 };
 
 export function SplitScreen({
-  children,
+  fullHeight,
   leftWeight,
   rightWeight,
+  leftHeight,
+  rightHeight,
+  children,
 }: SplitScreenProps) {
   const [leftComponent, rightComponent] = children;
 
@@ -18,13 +24,33 @@ export function SplitScreen({
 
   const rightWidth =
     typeof rightWeight === 'string'
-      ? { width: rightWeight }
-      : { flex: `${rightWeight}` };
+      ? { width: leftWeight }
+      : { flex: `${leftWeight}` };
+
+  const heightL =
+    typeof leftHeight === 'string'
+      ? { height: leftHeight }
+      : { flex: `${leftHeight}` };
+
+  const heightR =
+    typeof rightHeight === 'string'
+      ? { height: rightHeight }
+      : { flex: `${rightHeight}` };
+
+  const leftSize = {
+    ...(leftWeight ? leftWidth : {}),
+    ...(leftHeight ? heightL : {}),
+  };
+
+  const rightSize = {
+    ...(rightWeight ? rightWidth : {}),
+    ...(rightHeight ? heightR : {}),
+  };
 
   return (
-    <div style={{ display: 'flex' }}>
-      <div style={leftWidth ? leftWidth : {}}>{leftComponent}</div>
-      <div style={rightWidth ? rightWidth : {}}>{rightComponent}</div>
+    <div style={{ display: 'flex', height: fullHeight ? '100%' : '' }}>
+      <div style={leftSize}>{leftComponent}</div>
+      <div style={rightSize}>{rightComponent}</div>
     </div>
   );
 }
