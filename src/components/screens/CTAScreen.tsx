@@ -3,6 +3,7 @@ import { SplitScreen } from '../layout/SplitScreen';
 import qrCodeImage from '../../assets/qr-code.png';
 import Button from '../ui/Button';
 import Form from '../Form';
+import { useEffect } from 'react';
 
 type CTAScreenProps = {
   onClose: () => void;
@@ -12,6 +13,12 @@ function CTAScreen({ onClose }: CTAScreenProps) {
   const handleClose = () => {
     onClose();
   };
+
+  useEffect(() => {
+    const buttons = document.getElementsByTagName('button');
+    console.log({ buttons });
+    return () => {};
+  }, []);
 
   return (
     <>

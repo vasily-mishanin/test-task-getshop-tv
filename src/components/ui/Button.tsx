@@ -7,15 +7,19 @@ type ButtonProps = {
   onClick?: (value?: string) => void;
 };
 
+const hoverStyles =
+  'hover:text-primary_white hover:bg-primary_black hover:text-primary_white hover:bg-primary_black hover:border-0';
+const focusStyles =
+  'focus:text-primary_white focus:bg-primary_black focus:text-primary_white focus:bg-primary_black focus:border-0';
+
+const submitActiveStyles =
+  'hover:enabled:text-primary_white hover:enabled:bg-primary_black hover:enabled:border-0 focus:enabled:text-primary_white focus:enabled:bg-primary_black focus:enabled:border-0';
+
 const classes = {
-  close:
-    'w-[88px] h-[52px] text-primary_black border-2 border-black bg-primary_white hover:enabled:text-primary_white hover:bg-primary_black hover:border-0',
-  value:
-    'w-[88px] h-[52px] text-primary_black   border-2 border-black bg-transparent hover:text-primary_white hover:bg-primary_black hover:border-0',
-  delete:
-    'w-[186px] h-[52px] text-primary_black border-2 border-black bg-transparent hover:text-primary_white hover:bg-primary_black hover:border-0',
-  submit:
-    'w-[284px] h-[52px] text-primary_gray border-2 border-primary_gray bg-transparent hover:enabled:text-primary_white hover:enabled:bg-primary_black hover:enabled:border-0',
+  close: `w-[88px] h-[52px] text-primary_black border-2 border-black bg-primary_white  ${hoverStyles} ${focusStyles}`,
+  value: `w-[88px] h-[52px] text-primary_black   border-2 border-black bg-transparent  ${hoverStyles} ${focusStyles}`,
+  delete: `w-[186px] h-[52px] text-primary_black border-2 border-black bg-transparent  ${hoverStyles} ${focusStyles}`,
+  submit: `w-[284px] h-[52px] text-primary_gray border-2 border-primary_gray bg-transparent ${submitActiveStyles}`,
 };
 
 function Button({

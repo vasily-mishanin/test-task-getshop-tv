@@ -3,7 +3,7 @@ import { inputToMask } from '../../utils/helpers';
 
 type InputProps = {
   value: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
 };
 
 const INPUT_MASK = '+7(___)___-__-__';
@@ -19,11 +19,9 @@ export function PhoneNumberInput({ value, onChange }: InputProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let enteredNumber = e.target.value;
     console.log('INPUT: ', enteredNumber);
-    // enteredNumber = enteredNumber.slice(1) + enteredNumber.slice(0, 1);
-    // console.log('INPUT: ', enteredNumber);
     const updatedMask = inputToMask(enteredNumber, INPUT_MASK);
     setMask(updatedMask);
-    onChange(enteredNumber);
+    // onChange(enteredNumber);
   };
 
   console.log('INPUT-value: ', value);
