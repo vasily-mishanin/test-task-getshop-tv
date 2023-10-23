@@ -2,21 +2,32 @@ import QRCodeCTA from '../QRCodeCTA';
 import { SplitScreen } from '../layout/SplitScreen';
 import qrCodeImage from '../../assets/qr-code.png';
 import Button from '../ui/Button';
+import Form from '../Form';
+import { useEffect } from 'react';
 
-type CTAPageProps = {
+type CTAScreenProps = {
   onClose: () => void;
 };
 
-function CTAPage({ onClose }: CTAPageProps) {
+function CTAScreen({ onClose }: CTAScreenProps) {
   const handleClose = () => {
     onClose();
   };
 
+  useEffect(() => {
+    const elements = document.querySelectorAll(
+      'button, input[type="checkbox"]'
+    );
+    (elements[4] as HTMLElement).focus();
+    console.log({ elements });
+    return () => {};
+  }, []);
+
   return (
     <>
-      <SplitScreen leftWeight={'380px'}>
-        <h1 className='bg-primary_blue'>Left</h1>
-        <h1 className='hidden'>Rigt</h1>
+      <SplitScreen fullHeight leftWeight={'380px'} leftHeight={'100%'}>
+        <Form id='phoneNumberForm' />
+        <div className='hidden'></div>
       </SplitScreen>
       <QRCodeCTA
         text={'СКАНИРУЙТЕ QR-КОД ДЛЯ ПОЛУЧЕНИЯ ДОПОЛНИТЕЛЬНОЙ ИНФОРМАЦИИ'}
@@ -30,4 +41,4 @@ function CTAPage({ onClose }: CTAPageProps) {
     </>
   );
 }
-export default CTAPage;
+export default CTAScreen;

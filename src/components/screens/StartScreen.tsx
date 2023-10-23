@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react';
 import { wait } from '../../utils/helpers';
 const DELAY_BEFORE_BANNER = 2000;
 
-type StartPageProps = {
+type StartScreenProps = {
   videoTimestamp: number;
   onClick: () => void;
 };
 
-function StartPage({ videoTimestamp, onClick }: StartPageProps) {
+function StartScreen({ videoTimestamp, onClick }: StartScreenProps) {
   const [bannerIsShown, setBannerIsShown] = useState(false);
 
   useEffect(() => {
@@ -35,4 +35,4 @@ function StartPage({ videoTimestamp, onClick }: StartPageProps) {
     </div>
   );
 }
-export default StartPage;
+export default StartScreen;

@@ -1,0 +1,211 @@
+import { useEffect, useRef, useState } from 'react';
+import { PhoneNumberInput } from './ui/Input';
+import Button from './ui/Button';
+import CheckBox from './ui/CheckBox/CheckBox';
+import { wait } from '../utils/helpers';
+const ALLOWED_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+const NUMBER_LENGTH = 10;
+
+type InputState = {
+  value: string;
+  isValid?: boolean;
+};
+
+function Form({ id }: { id: string }) {
+  const [enteredNumber, setEnteredNumber] = useState<InputState>({
+    value: '',
+    isValid: undefined,
+  });
+  const [agree, setAgree] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  console.log({ enteredNumber, agree });
+
+  const handleAgree = () => {
+    setAgree((prev) => !prev);
+  };
+
+  const handleNumberButtonsClick = (value?: string) => {
+    console.log('handleNumberButtonsClick');
+    if (enteredNumber.value.length === NUMBER_LENGTH - 1) {
+      setEnteredNumber((prev) => ({
+        value: prev.value + value,
+        isValid: true,
+      }));
+    } else if (enteredNumber.value.length < NUMBER_LENGTH) {
+      setEnteredNumber((prev) => ({
+        value: prev.value + value,
+        isValid: false,
+      }));
+    }
+  };
+
+  const handleDeleteButtonClick = () => {
+    setEnteredNumber((prev) => ({
+      value: prev.value.slice(0, -1),
+      isValid: false,
+    }));
+  };
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    const form = formRef.current as HTMLFormElement;
+    const pressedKey = event.key;
+    if (pressedKey === 'Enter') {
+      event.preventDefault();
+    }
+
+    if (ALLOWED_KEYS.includes(pressedKey)) {
+      const key = form.querySelector('#num' + pressedKey) as HTMLElement;
+      key.focus();
+      wait(50).then(() => key.blur());
+      handleNumberButtonsClick(pressedKey);
+    }
+
+    if (pressedKey === 'Backspace') {
+      const key = form.querySelector('#backspace') as HTMLElement;
+      key.focus();
+      wait(100).then(() => key.blur());
+      handleDeleteButtonClick();
+    }
+
+    if (pressedKey === 'Enter') {
+      const activeElement = document.activeElement as HTMLElement;
+      const value = activeElement.id.slice(-1);
+      console.log(activeElement);
+
+      if (activeElement.id === 'backspace') {
+        handleDeleteButtonClick();
+      }
+
+      if (activeElement.id === 'personalDataAgree') {
+        handleAgree();
+      }
+
+      if (ALLOWED_KEYS.includes(value)) {
+        handleNumberButtonsClick(value);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown]);
+
+  const formIsValid = enteredNumber.isValid && agree;
+
+  return (
+    <form
+      id={id}
+      ref={formRef}
+      className='h-full px-12 py-[72px] text-center bg-primary_blue'
+    >
+      <PhoneNumberInput value={enteredNumber.value} />
+      <div className='flex flex-wrap gap-[10px] py-5 mb-2'>
+        <Button
+          id='num1'
+          buttonType='value'
+          value='1'
+          onClick={handleNumberButtonsClick}
+        >
+          <span>1</span>
+        </Button>
+        <Button
+          id='num2'
+          buttonType='value'
+          value='2'
+          onClick={handleNumberButtonsClick}
+        >
+          <span>2</span>
+        </Button>
+        <Button
+          id='num3'
+          buttonType='value'
+          value='3'
+          onClick={handleNumberButtonsClick}
+        >
+          <span>3</span>
+        </Button>
+        <Button
+          id='num4'
+          buttonType='value'
+          value='4'
+          onClick={handleNumberButtonsClick}
+        >
+          <span>4</span>
+        </Button>
+        <Button
+          id='num5'
+          buttonType='value'
+          value='5'
+          onClick={handleNumberButtonsClick}
+        >
+          <span>5</span>
+        </Button>
+        <Button
+          id='num6'
+          buttonType='value'
+          value='6'
+          onClick={handleNumberButtonsClick}
+        >
+          <span>6</span>
+        </Button>
+        <Button
+          id='num7'
+          buttonType='value'
+          value='7'
+          onClick={handleNumberButtonsClick}
+        >
+          <span>7</span>
+        </Button>
+        <Button
+          id='num8'
+          buttonType='value'
+          value='8'
+          onClick={handleNumberButtonsClick}
+        >
+          <span>8</span>
+        </Button>
+        <Button
+          id='num9'
+          buttonType='value'
+          value='9'
+          onClick={handleNumberButtonsClick}
+        >
+          <span>9</span>
+        </Button>
+        <Button
+          id='backspace'
+          buttonType='delete'
+          onClick={handleDeleteButtonClick}
+        >
+          <span>СТЕРЕТЬ</span>
+        </Button>
+        <Button
+          id='num0'
+          buttonType='value'
+          value='0'
+          onClick={handleNumberButtonsClick}
+        >
+          <span>0</span>
+        </Button>
+      </div>
+      <CheckBox
+        id='personalDataAgree'
+        name='personalDataAgree'
+        label='Согласие на обработку персональных данных'
+        isChecked={agree}
+        onClick={handleAgree}
+      />
+      <Button buttonType='submit' disabled={!formIsValid}>
+        <span className={`${formIsValid ? 'text-primary_black' : ''}`}>
+          ПОДТВЕРДИТЬ НОМЕР
+        </span>
+      </Button>
+    </form>
+  );
+}
+export default Form;
