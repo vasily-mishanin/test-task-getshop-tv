@@ -8,16 +8,17 @@ type ButtonProps = {
 };
 
 const hoverStyles =
-  'hover:text-primary_white hover:bg-primary_black hover:text-primary_white hover:bg-primary_black hover:border-0';
+  'hover:text-primary_white hover:bg-primary_black hover:border-0 hover:border-black';
+
 const focusStyles =
-  'focus:text-primary_white focus:bg-primary_black focus:text-primary_white focus:bg-primary_black focus:border-0';
+  'focus:text-primary_white focus:bg-primary_black focus:border-0 focus:border-black focus:outline-none';
 
 const submitActiveStyles =
   'hover:enabled:text-primary_white hover:enabled:bg-primary_black hover:enabled:border-0 focus:enabled:text-primary_white focus:enabled:bg-primary_black focus:enabled:border-0';
 
 const classes = {
-  close: `w-[88px] h-[52px] text-primary_black border-2 border-black bg-primary_white  ${hoverStyles} ${focusStyles}`,
-  value: `w-[88px] h-[52px] text-primary_black   border-2 border-black bg-transparent  ${hoverStyles} ${focusStyles}`,
+  close: `w-[88px] h-[52px] text-primary_black border-2 border-black bg-primary_white  ${hoverStyles} ${focusStyles} `,
+  value: `w-[88px] h-[52px] text-primary_black border-2 border-black bg-transparent  ${hoverStyles} ${focusStyles}`,
   delete: `w-[186px] h-[52px] text-primary_black border-2 border-black bg-transparent  ${hoverStyles} ${focusStyles}`,
   submit: `w-[284px] h-[52px] text-primary_gray border-2 border-primary_gray bg-transparent ${submitActiveStyles}`,
 };

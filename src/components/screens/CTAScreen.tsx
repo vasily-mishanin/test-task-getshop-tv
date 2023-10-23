@@ -15,15 +15,18 @@ function CTAScreen({ onClose }: CTAScreenProps) {
   };
 
   useEffect(() => {
-    const buttons = document.getElementsByTagName('button');
-    console.log({ buttons });
+    const elements = document.querySelectorAll(
+      'button, input[type="checkbox"]'
+    );
+    (elements[4] as HTMLElement).focus();
+    console.log({ elements });
     return () => {};
   }, []);
 
   return (
     <>
       <SplitScreen fullHeight leftWeight={'380px'} leftHeight={'100%'}>
-        <Form />
+        <Form id='phoneNumberForm' />
         <div className='hidden'></div>
       </SplitScreen>
       <QRCodeCTA
