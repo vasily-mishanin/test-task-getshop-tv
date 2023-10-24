@@ -3,23 +3,28 @@ import StartScreen from '../components/screens/StartScreen';
 import CTAScreen from '../components/screens/CTAScreen';
 
 function Promo() {
-  const [videoTimestamp, setVideoTimestamp] = useState(0);
-  const [startTimestamp, setStartTimeStamp] = useState(Date.now);
   const [nextVideoTimestamp, setNextVideoTimestamp] = useState(0);
+  const [prevBannerClickTimestamp, setPrevBannerClickTimestamp] = useState(
+    Date.now
+  );
+  const [timeSpentOnAnotherPage, setTimeSpentOnAnotherPage] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
-  console.log('nextVideoTimestamp ', nextVideoTimestamp);
 
   const handleBannerClick = () => {
-    const clickTimestamp = Date.now();
-    const nextVideoTimestamp = Math.floor(
-      (clickTimestamp - startTimestamp) / 1000
-    );
-    console.log('nextVideoTimestamp ', nextVideoTimestamp);
-    setNextVideoTimestamp(nextVideoTimestamp);
+    const bannerClickTime = Date.now();
+    const nextVideoStartTime =
+      nextVideoTimestamp +
+      Math.floor((bannerClickTime - prevBannerClickTimestamp) / 1000) -
+      timeSpentOnAnotherPage;
+    setPrevBannerClickTimestamp(nextVideoStartTime);
+    setNextVideoTimestamp(nextVideoStartTime);
     setPageNumber(2);
   };
 
   const handleClose = () => {
+    setTimeSpentOnAnotherPage(
+      Math.floor((Date.now() - prevBannerClickTimestamp) / 1000)
+    );
     setPageNumber(1);
   };
 
@@ -30,7 +35,7 @@ function Promo() {
       {pageNumber === 1 && (
         <StartScreen
           onClick={handleBannerClick}
-          videoTimestamp={videoTimestamp || nextVideoTimestamp}
+          videoTimestamp={nextVideoTimestamp}
         />
       )}
       {pageNumber === 2 && <CTAScreen onClose={handleClose} />}

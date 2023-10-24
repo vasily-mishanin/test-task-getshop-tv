@@ -4,7 +4,6 @@ import qrCodeImage from '../../assets/qr-code.png';
 import Button from '../ui/Button';
 import Form from '../Form';
 import { useEffect, useRef, useState } from 'react';
-import { debounce, wait } from '../../utils/helpers';
 import Counter from '../Counter';
 const USER_INCATIVITY_LIMIT_ms = 1000000;
 const COUNTER_INTERVAL_ms = 1000;
@@ -23,7 +22,7 @@ function CTAScreen({ onClose }: CTAScreenProps) {
   };
 
   const handleUserIsActive = () => {
-    console.log('ACTIVE');
+    // TODO
     // if (closeTimerRef.current) {
     clearTimeout(closeTimerRef.current);
 
@@ -47,11 +46,7 @@ function CTAScreen({ onClose }: CTAScreenProps) {
 
     (elements[4] as HTMLElement).focus();
 
-    console.log({ elements });
-
     const handleKeyDown = (event: KeyboardEvent) => {
-      console.log('SCREEN - handleKeyDown');
-
       const currentElement = document.activeElement;
       const navItems = Array.from(elements);
 

@@ -28,8 +28,6 @@ function Form({ id, onActive }: FormProps) {
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  console.log({ enteredNumber, agree });
-
   const handleAgree = () => {
     onActive();
     setAgree((prev) => !prev);
@@ -62,8 +60,6 @@ function Form({ id, onActive }: FormProps) {
     const form = formRef.current as HTMLFormElement;
     const activeElement = document.activeElement as HTMLElement;
     const pressedKey = event.key;
-
-    console.log('FORM - handleKeyDown');
 
     if (pressedKey === 'Enter' && activeElement.id !== 'submitBtn') {
       event.preventDefault();

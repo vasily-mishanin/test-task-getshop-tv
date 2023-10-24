@@ -20,12 +20,10 @@ export function PhoneNumberInput({ enteredNumber }: InputProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let enteredNumber = e.target.value;
-    console.log('INPUT: ', enteredNumber);
     const updatedMask = inputToMask(enteredNumber, INPUT_MASK);
     setMask(updatedMask);
   };
 
-  console.log('INPUT-value: ', value);
   const inValidStyle = isValid === false ? 'text-accent_red' : '';
   return (
     <div className='mb-2'>

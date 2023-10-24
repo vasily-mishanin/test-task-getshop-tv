@@ -22,7 +22,7 @@ function Counter({ count, toggle }: CounterProps) {
   }, [toggle]);
 
   return (
-    <div className='absolute right-[40px] top-[100px] text-lg  text-primary_blue'>
+    <div className='absolute right-[40px] top-[100px] text-2xl text-primary_blue'>
       <span>{value}</span>
     </div>
   );
