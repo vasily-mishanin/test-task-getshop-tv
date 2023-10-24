@@ -26,7 +26,6 @@ function Form({ id }: { id: string }) {
   };
 
   const handleNumberButtonsClick = (value?: string) => {
-    console.log('handleNumberButtonsClick');
     if (enteredNumber.value.length === NUMBER_LENGTH - 1) {
       setEnteredNumber((prev) => ({
         value: prev.value + value,
@@ -71,7 +70,6 @@ function Form({ id }: { id: string }) {
     if (pressedKey === 'Enter') {
       const activeElement = document.activeElement as HTMLElement;
       const value = activeElement.id.slice(-1);
-      console.log(activeElement);
 
       if (activeElement.id === 'backspace') {
         handleDeleteButtonClick();
@@ -85,6 +83,10 @@ function Form({ id }: { id: string }) {
         handleNumberButtonsClick(value);
       }
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
   };
 
   useEffect(() => {
@@ -102,6 +104,7 @@ function Form({ id }: { id: string }) {
       id={id}
       ref={formRef}
       className='h-full px-12 py-[72px] text-center bg-primary_blue'
+      onSubmit={handleSubmit}
     >
       <PhoneNumberInput value={enteredNumber.value} />
       <div className='flex flex-wrap gap-[10px] py-5 mb-2'>
@@ -201,9 +204,7 @@ function Form({ id }: { id: string }) {
         onClick={handleAgree}
       />
       <Button buttonType='submit' disabled={!formIsValid}>
-        <span className={`${formIsValid ? 'text-primary_black' : ''}`}>
-          ПОДТВЕРДИТЬ НОМЕР
-        </span>
+        <span>ПОДТВЕРДИТЬ НОМЕР</span>
       </Button>
     </form>
   );

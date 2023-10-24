@@ -14,7 +14,7 @@ const focusStyles =
   'focus:text-primary_white focus:bg-primary_black focus:border-0 focus:border-black focus:outline-none';
 
 const submitActiveStyles =
-  'hover:enabled:text-primary_white hover:enabled:bg-primary_black hover:enabled:border-0 focus:enabled:text-primary_white focus:enabled:bg-primary_black focus:enabled:border-0';
+  'hover:enabled:text-primary_white hover:enabled:bg-primary_black hover:enabled:border-0 focus:enabled:text-primary_white focus:enabled:bg-primary_black focus:enabled:border-0 focus:enabled:outline-none enabled:text-primary_black';
 
 const classes = {
   close: `w-[88px] h-[52px] text-primary_black border-2 border-black bg-primary_white  ${hoverStyles} ${focusStyles} `,
