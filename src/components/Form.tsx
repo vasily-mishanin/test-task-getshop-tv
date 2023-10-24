@@ -7,7 +7,7 @@ import Keyboard from './Keyboard';
 import { verifyNumber } from '../api/api-numverify';
 import ErrorMessage from './ui/ErrorMessage';
 const ALLOWED_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
-const NUMBER_LENGTH = 10;
+const NUMBER_LENGTH = 15;
 
 export type InputState = {
   value: string;
@@ -35,6 +35,7 @@ function Form({ id, onActive }: FormProps) {
   };
 
   const handleNumberButtonsClick = (value?: string) => {
+    console.log('handleNumberButtonsClick');
     onActive();
     if (enteredNumber.value.length === NUMBER_LENGTH - 1) {
       setEnteredNumber((prev) => ({
@@ -50,6 +51,7 @@ function Form({ id, onActive }: FormProps) {
   };
 
   const handleDeleteButtonClick = () => {
+    console.log('handleDeleteButtonClick');
     onActive();
     setEnteredNumber((prev) => ({
       value: prev.value.slice(0, -1),
@@ -58,9 +60,11 @@ function Form({ id, onActive }: FormProps) {
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {
+    //onActive();
     const form = formRef.current as HTMLFormElement;
     const activeElement = document.activeElement as HTMLElement;
     const pressedKey = event.key;
+    console.log('handleKeyDown');
 
     if (pressedKey === 'Enter' && activeElement.id !== 'submitBtn') {
       event.preventDefault();
@@ -95,7 +99,6 @@ function Form({ id, onActive }: FormProps) {
         handleNumberButtonsClick(value);
       }
     }
-    onActive();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -123,19 +126,14 @@ function Form({ id, onActive }: FormProps) {
     };
   }, [handleKeyDown, isFormAccepted]);
 
-  const formIsValid = enteredNumber.isValid && agree;
+  const formIsValid = enteredNumber.isValid !== false && agree;
 
   return (
     <div className='h-full px-12 py-[72px] text-center bg-primary_blue flex flex-col items-center justify-center'>
       {isFormAccepted ? (
         <AppAcceptedMessage />
       ) : (
-        <form
-          id={id}
-          ref={formRef}
-          //className='h-full px-12 py-[72px] text-center bg-primary_blue'
-          onSubmit={handleSubmit}
-        >
+        <form id={id} ref={formRef} onSubmit={handleSubmit}>
           <PhoneNumberInput enteredNumber={enteredNumber} />
           <Keyboard
             onNumberButtonClick={handleNumberButtonsClick}

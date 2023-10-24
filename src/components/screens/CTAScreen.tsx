@@ -5,7 +5,7 @@ import Button from '../ui/Button';
 import Form from '../Form';
 import { useEffect, useRef, useState } from 'react';
 import Counter from '../Counter';
-const USER_INCATIVITY_LIMIT_ms = 1000000;
+const USER_INCATIVITY_LIMIT_ms = 100000;
 const COUNTER_INTERVAL_ms = 1000;
 const CLOSE_TIMEOUT = USER_INCATIVITY_LIMIT_ms / COUNTER_INTERVAL_ms;
 
@@ -22,13 +22,12 @@ function CTAScreen({ onClose }: CTAScreenProps) {
   };
 
   const handleUserIsActive = () => {
-    // TODO
-    // if (closeTimerRef.current) {
-    clearTimeout(closeTimerRef.current);
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
 
-    setToggleCounter((prev) => !prev);
-    closeTimerRef.current = setTimeout(handleClose, USER_INCATIVITY_LIMIT_ms);
-    // }
+      setToggleCounter((prev) => !prev);
+      closeTimerRef.current = setTimeout(handleClose, USER_INCATIVITY_LIMIT_ms);
+    }
   };
 
   useEffect(() => {
