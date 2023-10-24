@@ -4,6 +4,8 @@ http://getshoptv.com/
 
 Деплой микросайта на Netlify: https://earnest-biscochitos-ff4645.netlify.app/
 
+NOTE: Netlify не пропускает запросы на API по бесплатному http numverify - но верификация доступна локально
+
 В качестве тестового задания необходимо создать упрощенную демо-версию микросайта для SmartTV.
 [Ссылка на макет](https://www.figma.com/file/TxI66vUCvCTtX5ljGR3fxe/FrontTestVOD?node-id=167%3A408)
 

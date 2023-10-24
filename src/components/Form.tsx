@@ -35,7 +35,6 @@ function Form({ id, onActive }: FormProps) {
   };
 
   const handleNumberButtonsClick = (value?: string) => {
-    console.log('handleNumberButtonsClick');
     onActive();
     if (enteredNumber.value.length === NUMBER_LENGTH - 1) {
       setEnteredNumber((prev) => ({
@@ -51,7 +50,6 @@ function Form({ id, onActive }: FormProps) {
   };
 
   const handleDeleteButtonClick = () => {
-    console.log('handleDeleteButtonClick');
     onActive();
     setEnteredNumber((prev) => ({
       value: prev.value.slice(0, -1),
@@ -64,7 +62,6 @@ function Form({ id, onActive }: FormProps) {
     const form = formRef.current as HTMLFormElement;
     const activeElement = document.activeElement as HTMLElement;
     const pressedKey = event.key;
-    console.log('handleKeyDown');
 
     if (pressedKey === 'Enter' && activeElement.id !== 'submitBtn') {
       event.preventDefault();
