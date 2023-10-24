@@ -4,6 +4,7 @@ import Button from './ui/Button';
 import CheckBox from './ui/CheckBox/CheckBox';
 import { wait } from '../utils/helpers';
 import Keyboard from './Keyboard';
+import { verifyNumber } from '../api/api-numverify';
 const ALLOWED_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 const NUMBER_LENGTH = 10;
 
@@ -93,9 +94,17 @@ function Form({ id }: FormProps) {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsFormAccepted(true);
+    const verifyResult = await verifyNumber({
+      countryCode: 'RU',
+      number: enteredNumber.value,
+    });
+    if (verifyResult?.valid) {
+      setIsFormAccepted(true);
+    } else {
+      setEnteredNumber((prev) => ({ ...prev, isValid: false }));
+    }
   };
 
   useEffect(() => {
