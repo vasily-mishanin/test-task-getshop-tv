@@ -15,9 +15,10 @@ export type InputState = {
 
 type FormProps = {
   id: string;
+  onActive: () => void;
 };
 
-function Form({ id }: FormProps) {
+function Form({ id, onActive }: FormProps) {
   const [enteredNumber, setEnteredNumber] = useState<InputState>({
     value: '',
     isValid: undefined,
@@ -30,10 +31,12 @@ function Form({ id }: FormProps) {
   console.log({ enteredNumber, agree });
 
   const handleAgree = () => {
+    onActive();
     setAgree((prev) => !prev);
   };
 
   const handleNumberButtonsClick = (value?: string) => {
+    onActive();
     if (enteredNumber.value.length === NUMBER_LENGTH - 1) {
       setEnteredNumber((prev) => ({
         value: prev.value + value,
@@ -48,6 +51,7 @@ function Form({ id }: FormProps) {
   };
 
   const handleDeleteButtonClick = () => {
+    onActive();
     setEnteredNumber((prev) => ({
       value: prev.value.slice(0, -1),
       isValid: undefined,
@@ -58,6 +62,8 @@ function Form({ id }: FormProps) {
     const form = formRef.current as HTMLFormElement;
     const activeElement = document.activeElement as HTMLElement;
     const pressedKey = event.key;
+
+    console.log('FORM - handleKeyDown');
 
     if (pressedKey === 'Enter' && activeElement.id !== 'submitBtn') {
       event.preventDefault();
@@ -92,6 +98,7 @@ function Form({ id }: FormProps) {
         handleNumberButtonsClick(value);
       }
     }
+    onActive();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -22,6 +22,8 @@ export async function verifyNumber({
   } catch (error) {
     if (error instanceof Error) {
       console.log(error.message);
+    } else {
+      console.log('Error while calling Numverify API');
     }
   }
 }

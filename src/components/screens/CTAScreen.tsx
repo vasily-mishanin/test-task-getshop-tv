@@ -3,16 +3,42 @@ import { SplitScreen } from '../layout/SplitScreen';
 import qrCodeImage from '../../assets/qr-code.png';
 import Button from '../ui/Button';
 import Form from '../Form';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { debounce, wait } from '../../utils/helpers';
+import Counter from '../Counter';
+const USER_INCATIVITY_LIMIT_ms = 1000000;
+const COUNTER_INTERVAL_ms = 1000;
+const CLOSE_TIMEOUT = USER_INCATIVITY_LIMIT_ms / COUNTER_INTERVAL_ms;
 
 type CTAScreenProps = {
   onClose: () => void;
 };
 
 function CTAScreen({ onClose }: CTAScreenProps) {
+  const [toggleCounter, setToggleCounter] = useState(false);
+  const closeTimerRef = useRef<number | undefined>();
+
   const handleClose = () => {
     onClose();
   };
+
+  const handleUserIsActive = () => {
+    console.log('ACTIVE');
+    // if (closeTimerRef.current) {
+    clearTimeout(closeTimerRef.current);
+
+    setToggleCounter((prev) => !prev);
+    closeTimerRef.current = setTimeout(handleClose, USER_INCATIVITY_LIMIT_ms);
+    // }
+  };
+
+  useEffect(() => {
+    closeTimerRef.current = setTimeout(handleClose, USER_INCATIVITY_LIMIT_ms);
+
+    return () => {
+      clearTimeout(closeTimerRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     const elements = document.querySelectorAll(
@@ -21,7 +47,11 @@ function CTAScreen({ onClose }: CTAScreenProps) {
 
     (elements[4] as HTMLElement).focus();
 
+    console.log({ elements });
+
     const handleKeyDown = (event: KeyboardEvent) => {
+      console.log('SCREEN - handleKeyDown');
+
       const currentElement = document.activeElement;
       const navItems = Array.from(elements);
 
@@ -72,6 +102,8 @@ function CTAScreen({ onClose }: CTAScreenProps) {
         (elements[nextIndex] as HTMLElement).focus();
         event.preventDefault();
       }
+
+      handleUserIsActive();
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -84,7 +116,7 @@ function CTAScreen({ onClose }: CTAScreenProps) {
   return (
     <>
       <SplitScreen fullHeight leftWeight={'380px'} leftHeight={'100%'}>
-        <Form id='phoneNumberForm' />
+        <Form id='phoneNumberForm' onActive={handleUserIsActive} />
         <div className='hidden'></div>
       </SplitScreen>
       <QRCodeCTA
@@ -96,6 +128,7 @@ function CTAScreen({ onClose }: CTAScreenProps) {
           <span className='text-3xl'>&#10005;</span>
         </Button>
       </div>
+      <Counter count={CLOSE_TIMEOUT} toggle={toggleCounter} />
     </>
   );
 }
