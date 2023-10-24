@@ -6,7 +6,7 @@ import { wait } from '../utils/helpers';
 const ALLOWED_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 const NUMBER_LENGTH = 10;
 
-type InputState = {
+export type InputState = {
   value: string;
   isValid?: boolean;
 };
@@ -14,7 +14,7 @@ type InputState = {
 function Form({ id }: { id: string }) {
   const [enteredNumber, setEnteredNumber] = useState<InputState>({
     value: '',
-    isValid: undefined,
+    isValid: false,
   });
   const [agree, setAgree] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
@@ -106,7 +106,7 @@ function Form({ id }: { id: string }) {
       className='h-full px-12 py-[72px] text-center bg-primary_blue'
       onSubmit={handleSubmit}
     >
-      <PhoneNumberInput value={enteredNumber.value} />
+      <PhoneNumberInput enteredNumber={enteredNumber} />
       <div className='flex flex-wrap gap-[10px] py-5 mb-2'>
         <Button
           id='num1'
@@ -196,13 +196,19 @@ function Form({ id }: { id: string }) {
           <span>0</span>
         </Button>
       </div>
-      <CheckBox
-        id='personalDataAgree'
-        name='personalDataAgree'
-        label='Согласие на обработку персональных данных'
-        isChecked={agree}
-        onClick={handleAgree}
-      />
+      {enteredNumber.isValid === false ? (
+        <div className='w-[284px] h-[52px] text-accent_red font-bold'>
+          НЕВЕРНО ВВЕДЕН НОМЕР
+        </div>
+      ) : (
+        <CheckBox
+          id='personalDataAgree'
+          name='personalDataAgree'
+          label='Согласие на обработку персональных данных'
+          isChecked={agree}
+          onClick={handleAgree}
+        />
+      )}
       <Button buttonType='submit' disabled={!formIsValid}>
         <span>ПОДТВЕРДИТЬ НОМЕР</span>
       </Button>

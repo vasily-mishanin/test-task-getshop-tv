@@ -13,6 +13,7 @@ export default {
       primary_black: '#000000',
       primary_white: '#FFFFFF',
       primary_gray: '#565656',
+      accent_red: '#EA0000',
     },
   },
   plugins: [],
