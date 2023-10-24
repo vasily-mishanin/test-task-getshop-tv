@@ -3,6 +3,7 @@ import { PhoneNumberInput } from './ui/Input';
 import Button from './ui/Button';
 import CheckBox from './ui/CheckBox/CheckBox';
 import { wait } from '../utils/helpers';
+import Keyboard from './Keyboard';
 const ALLOWED_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 const NUMBER_LENGTH = 10;
 
@@ -11,12 +12,18 @@ export type InputState = {
   isValid?: boolean;
 };
 
-function Form({ id }: { id: string }) {
+type FormProps = {
+  id: string;
+};
+
+function Form({ id }: FormProps) {
   const [enteredNumber, setEnteredNumber] = useState<InputState>({
     value: '',
-    isValid: false,
+    isValid: undefined,
   });
   const [agree, setAgree] = useState(false);
+  const [isFormAccepted, setIsFormAccepted] = useState(false);
+
   const formRef = useRef<HTMLFormElement>(null);
 
   console.log({ enteredNumber, agree });
@@ -34,7 +41,7 @@ function Form({ id }: { id: string }) {
     } else if (enteredNumber.value.length < NUMBER_LENGTH) {
       setEnteredNumber((prev) => ({
         value: prev.value + value,
-        isValid: false,
+        isValid: undefined,
       }));
     }
   };
@@ -42,14 +49,16 @@ function Form({ id }: { id: string }) {
   const handleDeleteButtonClick = () => {
     setEnteredNumber((prev) => ({
       value: prev.value.slice(0, -1),
-      isValid: false,
+      isValid: undefined,
     }));
   };
 
   const handleKeyDown = (event: KeyboardEvent) => {
     const form = formRef.current as HTMLFormElement;
+    const activeElement = document.activeElement as HTMLElement;
     const pressedKey = event.key;
-    if (pressedKey === 'Enter') {
+
+    if (pressedKey === 'Enter' && activeElement.id !== 'submitBtn') {
       event.preventDefault();
     }
 
@@ -68,7 +77,6 @@ function Form({ id }: { id: string }) {
     }
 
     if (pressedKey === 'Enter') {
-      const activeElement = document.activeElement as HTMLElement;
       const value = activeElement.id.slice(-1);
 
       if (activeElement.id === 'backspace') {
@@ -87,132 +95,71 @@ function Form({ id }: { id: string }) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsFormAccepted(true);
   };
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
 
+    if (isFormAccepted) {
+      (document.querySelector('#closeScreen') as HTMLElement).focus();
+    }
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleKeyDown]);
+  }, [handleKeyDown, isFormAccepted]);
 
   const formIsValid = enteredNumber.isValid && agree;
 
   return (
-    <form
-      id={id}
-      ref={formRef}
-      className='h-full px-12 py-[72px] text-center bg-primary_blue'
-      onSubmit={handleSubmit}
-    >
-      <PhoneNumberInput enteredNumber={enteredNumber} />
-      <div className='flex flex-wrap gap-[10px] py-5 mb-2'>
-        <Button
-          id='num1'
-          buttonType='value'
-          value='1'
-          onClick={handleNumberButtonsClick}
-        >
-          <span>1</span>
-        </Button>
-        <Button
-          id='num2'
-          buttonType='value'
-          value='2'
-          onClick={handleNumberButtonsClick}
-        >
-          <span>2</span>
-        </Button>
-        <Button
-          id='num3'
-          buttonType='value'
-          value='3'
-          onClick={handleNumberButtonsClick}
-        >
-          <span>3</span>
-        </Button>
-        <Button
-          id='num4'
-          buttonType='value'
-          value='4'
-          onClick={handleNumberButtonsClick}
-        >
-          <span>4</span>
-        </Button>
-        <Button
-          id='num5'
-          buttonType='value'
-          value='5'
-          onClick={handleNumberButtonsClick}
-        >
-          <span>5</span>
-        </Button>
-        <Button
-          id='num6'
-          buttonType='value'
-          value='6'
-          onClick={handleNumberButtonsClick}
-        >
-          <span>6</span>
-        </Button>
-        <Button
-          id='num7'
-          buttonType='value'
-          value='7'
-          onClick={handleNumberButtonsClick}
-        >
-          <span>7</span>
-        </Button>
-        <Button
-          id='num8'
-          buttonType='value'
-          value='8'
-          onClick={handleNumberButtonsClick}
-        >
-          <span>8</span>
-        </Button>
-        <Button
-          id='num9'
-          buttonType='value'
-          value='9'
-          onClick={handleNumberButtonsClick}
-        >
-          <span>9</span>
-        </Button>
-        <Button
-          id='backspace'
-          buttonType='delete'
-          onClick={handleDeleteButtonClick}
-        >
-          <span>СТЕРЕТЬ</span>
-        </Button>
-        <Button
-          id='num0'
-          buttonType='value'
-          value='0'
-          onClick={handleNumberButtonsClick}
-        >
-          <span>0</span>
-        </Button>
-      </div>
-      {enteredNumber.isValid === false ? (
-        <div className='w-[284px] h-[52px] text-accent_red font-bold'>
-          НЕВЕРНО ВВЕДЕН НОМЕР
-        </div>
+    <div className='h-full px-12 py-[72px] text-center bg-primary_blue flex flex-col items-center justify-center'>
+      {isFormAccepted ? (
+        <AppAcceptedMessage />
       ) : (
-        <CheckBox
-          id='personalDataAgree'
-          name='personalDataAgree'
-          label='Согласие на обработку персональных данных'
-          isChecked={agree}
-          onClick={handleAgree}
-        />
+        <form
+          id={id}
+          ref={formRef}
+          //className='h-full px-12 py-[72px] text-center bg-primary_blue'
+          onSubmit={handleSubmit}
+        >
+          <PhoneNumberInput enteredNumber={enteredNumber} />
+          <Keyboard
+            onNumberButtonClick={handleNumberButtonsClick}
+            onDeleteButtonClick={handleDeleteButtonClick}
+          />
+
+          {enteredNumber.isValid === false ? (
+            <div className='w-[284px] h-[52px] text-accent_red font-bold'>
+              НЕВЕРНО ВВЕДЕН НОМЕР
+            </div>
+          ) : (
+            <CheckBox
+              id='personalDataAgree'
+              name='personalDataAgree'
+              label='Согласие на обработку персональных данных'
+              isChecked={agree}
+              onClick={handleAgree}
+            />
+          )}
+          <Button buttonType='submit' disabled={!formIsValid} id='submitBtn'>
+            <span>ПОДТВЕРДИТЬ НОМЕР</span>
+          </Button>
+        </form>
       )}
-      <Button buttonType='submit' disabled={!formIsValid}>
-        <span>ПОДТВЕРДИТЬ НОМЕР</span>
-      </Button>
-    </form>
+    </div>
   );
 }
+
 export default Form;
+
+const AppAcceptedMessage = () => {
+  return (
+    <div className='p-4'>
+      <h1 className='text-[32px] font-bold leading-9 mb-4'>ЗАЯВКА ПРИНЯТА</h1>
+      <p className='text-sm'>
+        Держите телефон под рукой. Скоро с Вами свяжется наш менеджер.
+      </p>
+    </div>
+  );
+};
