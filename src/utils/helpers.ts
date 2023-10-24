@@ -11,3 +11,11 @@ export function inputToMask(input: string, mask: string) {
   });
   return updatedMask;
 }
+
+export function debounce(func: Function, ms: number) {
+  let timeout: number;
+  return (...args: any[]) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), ms);
+  };
+}

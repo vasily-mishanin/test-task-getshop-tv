@@ -2,7 +2,7 @@ import StartBanner from '../StartBanner';
 import bannerImage from '../../assets/banner-start.png';
 import { useEffect, useState } from 'react';
 import { wait } from '../../utils/helpers';
-const DELAY_BEFORE_BANNER = 2000;
+const DELAY_BEFORE_BANNER = 5000;
 
 type StartScreenProps = {
   videoTimestamp: number;
