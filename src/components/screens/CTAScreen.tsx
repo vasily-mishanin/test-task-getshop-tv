@@ -5,7 +5,7 @@ import Button from '../ui/Button';
 import Form from '../Form';
 import { useEffect, useRef, useState } from 'react';
 import Counter from '../Counter';
-const USER_INCATIVITY_LIMIT_ms = 15000;
+const USER_INCATIVITY_LIMIT_ms = 10000;
 const COUNTER_INTERVAL_ms = 1000;
 const CLOSE_TIMEOUT = USER_INCATIVITY_LIMIT_ms / COUNTER_INTERVAL_ms;
 

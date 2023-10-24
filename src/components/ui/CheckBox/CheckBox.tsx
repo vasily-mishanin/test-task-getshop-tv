@@ -30,7 +30,9 @@ function CheckBox({
   };
 
   return (
-    <div className={`checkbox-wrapper mb-3 ${isHidden ? 'opacity-0' : ''}`}>
+    <div
+      className={`z-10 checkbox-wrapper mb-3 ${isHidden ? 'opacity-0' : ''}`}
+    >
       <input
         className='w-0 absolute'
         name={name}

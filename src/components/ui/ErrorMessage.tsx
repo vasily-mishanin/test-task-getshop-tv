@@ -6,8 +6,8 @@ type ErrorMessageProps = {
 function ErrorMessage({ text, isHidden }: ErrorMessageProps) {
   return (
     <div
-      className={`absolute bottom-36 w-[284px] h-[52px] text-accent_red font-bold flex items-center justify-center ${
-        isHidden ? 'opacity-0' : ''
+      className={`z-0 absolute bottom-36 w-[284px] h-[52px] text-accent_red font-bold flex items-center justify-center ${
+        isHidden ? 'opacity-0 -left-72' : ''
       }`}
     >
       <span>{text}</span>
