@@ -6,10 +6,18 @@ type CheckBoxProps = {
   name: string;
   label: string;
   isChecked: boolean;
+  isHidden: boolean;
   onClick: () => void;
 };
 
-function CheckBox({ id, name, label, isChecked, onClick }: CheckBoxProps) {
+function CheckBox({
+  id,
+  name,
+  label,
+  isChecked,
+  isHidden,
+  onClick,
+}: CheckBoxProps) {
   const [checked, setChecked] = useState(isChecked);
 
   useEffect(() => {
@@ -22,7 +30,7 @@ function CheckBox({ id, name, label, isChecked, onClick }: CheckBoxProps) {
   };
 
   return (
-    <div className='checkbox-wrapper mb-3 '>
+    <div className={`checkbox-wrapper mb-3 ${isHidden ? 'opacity-0' : ''}`}>
       <input
         className='w-0 absolute'
         name={name}

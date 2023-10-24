@@ -14,7 +14,6 @@ export async function verifyNumber({
   number: string;
 }) {
   const URL = `${NUMVERIFY_URL}&number=${number}&country_code=${countryCode}&format=1`;
-  console.log({ URL });
   try {
     const res = await fetch(URL);
     const result: NumveifyResult = await res.json();

@@ -46,6 +46,8 @@ function CTAScreen({ onClose }: CTAScreenProps) {
 
     (elements[4] as HTMLElement).focus();
 
+    console.log({ elements });
+
     const handleKeyDown = (event: KeyboardEvent) => {
       const currentElement = document.activeElement;
       const navItems = Array.from(elements);

@@ -5,6 +5,7 @@ import CheckBox from './ui/CheckBox/CheckBox';
 import { wait } from '../utils/helpers';
 import Keyboard from './Keyboard';
 import { verifyNumber } from '../api/api-numverify';
+import ErrorMessage from './ui/ErrorMessage';
 const ALLOWED_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 const NUMBER_LENGTH = 10;
 
@@ -141,19 +142,20 @@ function Form({ id, onActive }: FormProps) {
             onDeleteButtonClick={handleDeleteButtonClick}
           />
 
-          {enteredNumber.isValid === false ? (
-            <div className='w-[284px] h-[52px] text-accent_red font-bold'>
-              НЕВЕРНО ВВЕДЕН НОМЕР
-            </div>
-          ) : (
-            <CheckBox
-              id='personalDataAgree'
-              name='personalDataAgree'
-              label='Согласие на обработку персональных данных'
-              isChecked={agree}
-              onClick={handleAgree}
-            />
-          )}
+          <CheckBox
+            id='personalDataAgree'
+            name='personalDataAgree'
+            label='Согласие на обработку персональных данных'
+            isChecked={agree}
+            isHidden={enteredNumber.isValid === false}
+            onClick={handleAgree}
+          />
+
+          <ErrorMessage
+            text='НЕВЕРНО ВВЕДЕН НОМЕР'
+            isHidden={enteredNumber.isValid !== false}
+          />
+
           <Button buttonType='submit' disabled={!formIsValid} id='submitBtn'>
             <span>ПОДТВЕРДИТЬ НОМЕР</span>
           </Button>
