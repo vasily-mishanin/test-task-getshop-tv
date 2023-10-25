@@ -99,6 +99,12 @@ function Form({ id, onActive }: FormProps) {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
+    if (window.location.hostname.includes('netlify.app')) {
+      console.log('Running on Netlify. Skipping API call.');
+      setIsFormAccepted(true);
+      return;
+    }
+
     e.preventDefault();
     const verifyResult = await verifyNumber({
       countryCode: 'RU',
