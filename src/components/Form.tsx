@@ -104,6 +104,7 @@ function Form({ id, onActive }: FormProps) {
     const number = enteredNumber.value;
 
     if (window.location.hostname.includes('netlify.app')) {
+      //https://earnest-biscochitos-ff4645.netlify.app/numVerifyProxy/:number/:countryCode
       const NETLIFY_FN_URL = `/.netlify/functions/numVerifyProxy/:${number}/:${countryCode}`;
       console.log('Running on Netlify.');
       // const response = await fetch(
