@@ -24,7 +24,7 @@ import fetch from 'node-fetch';
 import { Config, Context } from '@netlify/functions';
 
 export default async (req: Request, context: Context) => {
-  const { number, countryCode } = context.params;
+  const { number, countryCode } = await req.json();
   const apiURL = Netlify.env.get('VITE_NUMVERIFY_URL');
   const body = {
     message: 'Number Verification Request',
@@ -33,11 +33,9 @@ export default async (req: Request, context: Context) => {
     countryCode: countryCode,
   };
 
-  return new Response(JSON.stringify(body), {
-    statusText: 'Response from Netlify function',
-  });
+  return new Response(JSON.stringify(body));
 };
 
-export const config: Config = {
-  path: '/.netlify/functions/numVerifyProxy/:number/:countryCode',
-};
+// export const config: Config = {
+//   path: '/.netlify/functions/numVerifyProxy/:number/:countryCode',
+// };
