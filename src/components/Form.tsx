@@ -112,9 +112,8 @@ function Form({ id, onActive }: FormProps) {
       //   `/netlify/functions/proxy?number=${number}&country_code=${countryCode}`
       // );
       const response = await fetch(NETLIFY_FN_URL);
-      const verifyResult = await response.json();
-      console.log({ verifyResult });
-      setIsFormAccepted(true);
+      //const verifyResult = await response.json();
+      console.log({ response });
       // if (verifyResult?.valid) {
       //   setIsFormAccepted(true);
       // } else {
