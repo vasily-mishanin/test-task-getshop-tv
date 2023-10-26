@@ -99,21 +99,29 @@ function Form({ id, onActive }: FormProps) {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    if (window.location.hostname.includes('netlify.app')) {
-      console.log('Running on Netlify. Skipping API call.');
-      setIsFormAccepted(true);
-      return;
-    }
-
     e.preventDefault();
-    const verifyResult = await verifyNumber({
-      countryCode: 'RU',
-      number: enteredNumber.value,
-    });
-    if (verifyResult?.valid) {
-      setIsFormAccepted(true);
+    const countryCode = 'RU';
+    const number = enteredNumber.value;
+
+    if (window.location.hostname.includes('netlify.app')) {
+      console.log('Running on Netlify.');
+      const response = await fetch(
+        `/netlify/functions/proxy?number=${number}&country_code=${countryCode}`
+      );
+      const verifyResult = await response.json();
+      if (verifyResult?.valid) {
+        setIsFormAccepted(true);
+      } else {
+        setEnteredNumber((prev) => ({ ...prev, isValid: false }));
+      }
     } else {
-      setEnteredNumber((prev) => ({ ...prev, isValid: false }));
+      console.log('Running Locally.');
+      const verifyResult = await verifyNumber({ countryCode, number });
+      if (verifyResult?.valid) {
+        setIsFormAccepted(true);
+      } else {
+        setEnteredNumber((prev) => ({ ...prev, isValid: false }));
+      }
     }
   };
 
