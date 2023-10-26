@@ -113,6 +113,7 @@ function Form({ id, onActive }: FormProps) {
       // );
 
       const response = await fetch(NETLIFY_FN_URL, {
+        method: 'POST',
         body: JSON.stringify({ number, countryCode }),
       });
 
