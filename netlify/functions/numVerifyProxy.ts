@@ -25,10 +25,12 @@ import { Config, Context } from '@netlify/functions';
 
 export default async (req: Request, context: Context) => {
   const { number, countryCode } = context.params;
-
-  return new Response(`You're searching for ${number} in ${countryCode}!`);
+  const apiURL = Netlify.env.get('VITE_NUMVERIFY_URL');
+  return new Response(
+    `You're searching for ${number} in ${countryCode} from ${apiURL}!`
+  );
 };
 
 export const config: Config = {
-  path: '/travel-guide/:number/:countryCode',
+  path: '/:number/:countryCode',
 };
