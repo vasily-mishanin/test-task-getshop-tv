@@ -26,8 +26,9 @@ import { Config, Context } from '@netlify/functions';
 export default async (req: Request, context: Context) => {
   const { number, countryCode } = context.params;
   const apiURL = Netlify.env.get('VITE_NUMVERIFY_URL');
+  const REQ = req.json();
   return new Response(
-    `You're searching for ${number} in ${countryCode} from ${apiURL}!`
+    `${REQ} ===> You're searching for ${number} in ${countryCode} from ${apiURL}!`
   );
 };
 
