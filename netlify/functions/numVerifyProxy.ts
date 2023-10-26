@@ -27,9 +27,15 @@ export default async (req: Request, context: Context) => {
   const { number, countryCode } = context.params;
   const apiURL = Netlify.env.get('VITE_NUMVERIFY_URL');
   // const REQ = req.json();
-  return new Response(
-    `You're searching for ${number} in ${countryCode} from ${apiURL}!`
-  );
+  const body = {
+    message: 'Number Verification Request',
+    number: number,
+    countryCode: countryCode,
+  };
+
+  return new Response(JSON.stringify(body), {
+    statusText: 'Response from Netlify function',
+  });
 };
 
 // export const config: Config = {
