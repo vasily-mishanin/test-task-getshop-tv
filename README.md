@@ -2,10 +2,9 @@
 
 http://getshoptv.com/
 
-Деплой микросайта на Netlify: https://earnest-biscochitos-ff4645.netlify.app/
-
-NOTE: Браузер не пропускает запросы с задеплоенного на HTTPS приложения на API по бесплатному HTTP от numverify. Все работает, если запускать локально.
-TODO: Использовать Netlify Functions для запроса через прокси
+Деплой микросайта на Netlify: https://earnest-biscochitos-ff4645.netlify.app/  
+Использовал Netlify Functions для запроса на NumVerify API через прокси так как браузер не пропускает запросы с задеплоенного на HTTPS приложения на API по бесплатному HTTP от numverify. 
+При развертывании локально, запрашивает из формы по напрямую.
 
 В качестве тестового задания необходимо создать упрощенную демо-версию микросайта для SmartTV.
 [Ссылка на макет](https://www.figma.com/file/TxI66vUCvCTtX5ljGR3fxe/FrontTestVOD?node-id=167%3A408)
