@@ -13,7 +13,7 @@ export function inputToMask(input: string, mask: string) {
 }
 
 export function debounce(func: Function, ms: number) {
-  let timeout: number;
+  let timeout: number | NodeJS.Timeout;
   return (...args: any[]) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), ms);
