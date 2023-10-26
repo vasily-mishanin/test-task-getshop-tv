@@ -23,12 +23,12 @@ const fetch = require('node-fetch');
 
 import { Config, Context } from '@netlify/functions';
 
-export default async (req: Request, context: Context) => {
+export default async (req, context) => {
   const { number, countryCode } = context.params;
 
   return new Response(`You're searching for ${number} in ${countryCode}!`);
 };
 
-export const config: Config = {
+export const config = {
   path: '/travel-guide/:number/:countryCode',
 };
