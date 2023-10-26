@@ -114,9 +114,9 @@ function Form({ id, onActive }: FormProps) {
         method: 'POST',
         body: JSON.stringify({ number, countryCode }),
       });
-      const verifyResult = await response.json();
+      const result = await response.json();
 
-      handleResult(verifyResult as NumveifyResult);
+      handleResult(result.verificationResult as NumveifyResult);
     } else {
       console.log('Running Locally.');
       const verifyResult = await verifyNumber({ countryCode, number });
