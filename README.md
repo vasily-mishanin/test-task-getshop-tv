@@ -2,7 +2,7 @@
 
 http://getshoptv.com/
 
-Деплой микросайта на Netlify: https://earnest-biscochitos-ff4645.netlify.app/
+Деплой микросайта на Netlify: https://earnest-biscochitos-ff4645.netlify.app/  
 Использовал Netlify Functions для запроса на NumVerify API через прокси так как браузер не пропускает запросы с задеплоенного на HTTPS приложения на API по бесплатному HTTP от numverify. 
 При развертывании локально, запрашивает из формы по напрямую.
 
