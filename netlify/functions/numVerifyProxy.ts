@@ -26,9 +26,9 @@ import { Config, Context } from '@netlify/functions';
 export default async (req: Request, context: Context) => {
   const { number, countryCode } = context.params;
   const apiURL = Netlify.env.get('VITE_NUMVERIFY_URL');
-  // const REQ = req.json();
   const body = {
     message: 'Number Verification Request',
+    apiURL: apiURL,
     number: number,
     countryCode: countryCode,
   };
@@ -38,6 +38,6 @@ export default async (req: Request, context: Context) => {
   });
 };
 
-// export const config: Config = {
-//   path: '/.netlify/functions/numVerifyProxy/:number/:countryCode',
-// };
+export const config: Config = {
+  path: '/.netlify/functions/numVerifyProxy/:number/:countryCode',
+};
