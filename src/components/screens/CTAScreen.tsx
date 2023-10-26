@@ -15,7 +15,7 @@ type CTAScreenProps = {
 
 function CTAScreen({ onClose }: CTAScreenProps) {
   const [toggleCounter, setToggleCounter] = useState(false);
-  const closeTimerRef = useRef<number | undefined>();
+  const closeTimerRef = useRef<number | NodeJS.Timeout | undefined>();
 
   const handleClose = () => {
     onClose();

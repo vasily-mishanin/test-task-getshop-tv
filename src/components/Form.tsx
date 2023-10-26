@@ -4,7 +4,11 @@ import Button from './ui/Button';
 import CheckBox from './ui/CheckBox/CheckBox';
 import { wait } from '../utils/helpers';
 import Keyboard from './Keyboard';
-import { verifyNumber } from '../api/api-numverify';
+import {
+  NETLIFY_FN_URL,
+  NumveifyResult,
+  verifyNumber,
+} from '../api/api-numverify';
 import ErrorMessage from './ui/ErrorMessage';
 const ALLOWED_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 const NUMBER_LENGTH = 15;
@@ -99,17 +103,28 @@ function Form({ id, onActive }: FormProps) {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    if (window.location.hostname.includes('netlify.app')) {
-      console.log('Running on Netlify. Skipping API call.');
-      setIsFormAccepted(true);
-      return;
-    }
-
     e.preventDefault();
-    const verifyResult = await verifyNumber({
-      countryCode: 'RU',
-      number: enteredNumber.value,
-    });
+    const countryCode = 'RU';
+    const number = enteredNumber.value;
+
+    if (window.location.hostname.includes('netlify.app')) {
+      console.log('Running on Netlify.');
+
+      const response = await fetch(NETLIFY_FN_URL, {
+        method: 'POST',
+        body: JSON.stringify({ number, countryCode }),
+      });
+      const result = await response.json();
+      handleResult(result.verificationResult as NumveifyResult);
+    } else {
+      console.log('Running Locally.');
+      const verifyResult = await verifyNumber({ countryCode, number });
+
+      handleResult(verifyResult as NumveifyResult);
+    }
+  };
+
+  const handleResult = (verifyResult: NumveifyResult) => {
     if (verifyResult?.valid) {
       setIsFormAccepted(true);
     } else {
