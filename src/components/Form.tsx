@@ -104,7 +104,7 @@ function Form({ id, onActive }: FormProps) {
     const number = enteredNumber.value;
 
     if (window.location.hostname.includes('netlify.app')) {
-      const NETLIFY_FN_URL = `https://earnest-biscochitos-ff4645/.netlify/functions/numVerifyProxy/:${number}/:${countryCode}`;
+      const NETLIFY_FN_URL = `/.netlify/functions/numVerifyProxy/:${number}/:${countryCode}`;
       console.log('Running on Netlify.');
       // const response = await fetch(
       //   `/netlify/functions/proxy?number=${number}&country_code=${countryCode}`
@@ -112,12 +112,12 @@ function Form({ id, onActive }: FormProps) {
       const response = await fetch(NETLIFY_FN_URL);
       const verifyResult = await response.json();
       console.log({ verifyResult });
-
-      if (verifyResult?.valid) {
-        setIsFormAccepted(true);
-      } else {
-        setEnteredNumber((prev) => ({ ...prev, isValid: false }));
-      }
+      setIsFormAccepted(true);
+      // if (verifyResult?.valid) {
+      //   setIsFormAccepted(true);
+      // } else {
+      //   setEnteredNumber((prev) => ({ ...prev, isValid: false }));
+      // }
     } else {
       console.log('Running Locally.');
       const verifyResult = await verifyNumber({ countryCode, number });
