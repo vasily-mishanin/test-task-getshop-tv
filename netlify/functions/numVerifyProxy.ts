@@ -8,7 +8,9 @@ export default async (req: Request, context: Context) => {
   if (!apiURL) {
     throw new Error('No VITE_NUMVERIFY_URL in Evnironment variables');
   }
-  const response = await fetch(apiURL);
+  const response = await fetch(
+    `${apiURL}&number=${number}&country_code=${countryCode}&format=1`
+  );
   const verificationResult = await response.json();
 
   const body = {
