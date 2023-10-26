@@ -32,6 +32,6 @@ export default async (req: Request, context: Context) => {
   );
 };
 
-export const config: Config = {
-  path: '/.netlify/functions/numVerifyProxy/:number/:countryCode',
-};
+// export const config: Config = {
+//   path: '/.netlify/functions/numVerifyProxy/:number/:countryCode',
+// };
