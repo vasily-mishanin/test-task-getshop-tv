@@ -115,7 +115,7 @@ function Form({ id, onActive }: FormProps) {
         body: JSON.stringify({ number, countryCode }),
       });
       const result = await response.json();
-
+      console.log({ result });
       handleResult(result.verificationResult as NumveifyResult);
     } else {
       console.log('Running Locally.');
