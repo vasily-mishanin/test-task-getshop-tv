@@ -4,7 +4,11 @@ import Button from './ui/Button';
 import CheckBox from './ui/CheckBox/CheckBox';
 import { wait } from '../utils/helpers';
 import Keyboard from './Keyboard';
-import { verifyNumber } from '../api/api-numverify';
+import {
+  NETLIFY_FN_URL,
+  NumveifyResult,
+  verifyNumber,
+} from '../api/api-numverify';
 import ErrorMessage from './ui/ErrorMessage';
 const ALLOWED_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 const NUMBER_LENGTH = 15;
@@ -104,35 +108,28 @@ function Form({ id, onActive }: FormProps) {
     const number = enteredNumber.value;
 
     if (window.location.hostname.includes('netlify.app')) {
-      //https://earnest-biscochitos-ff4645.netlify.app/numVerifyProxy/:number/:countryCode
-      const NETLIFY_FN_URL = `/.netlify/functions/numVerifyProxy`;
-      // /.netlify/functions/numVerifyProxy/:number/:countryCode
-      console.log('Running on Netlify. => ', NETLIFY_FN_URL);
-      // const response = await fetch(
-      //   `/netlify/functions/proxy?number=${number}&country_code=${countryCode}`
-      // );
+      console.log('Running on Netlify.');
 
       const response = await fetch(NETLIFY_FN_URL, {
         method: 'POST',
         body: JSON.stringify({ number, countryCode }),
       });
-
       const verifyResult = await response.json();
-      console.log({ verifyResult });
 
-      // if (verifyResult?.valid) {
-      //   setIsFormAccepted(true);
-      // } else {
-      //   setEnteredNumber((prev) => ({ ...prev, isValid: false }));
-      // }
+      handleResult(verifyResult as NumveifyResult);
     } else {
       console.log('Running Locally.');
       const verifyResult = await verifyNumber({ countryCode, number });
-      if (verifyResult?.valid) {
-        setIsFormAccepted(true);
-      } else {
-        setEnteredNumber((prev) => ({ ...prev, isValid: false }));
-      }
+
+      handleResult(verifyResult as NumveifyResult);
+    }
+  };
+
+  const handleResult = (verifyResult: NumveifyResult) => {
+    if (verifyResult?.valid) {
+      setIsFormAccepted(true);
+    } else {
+      setEnteredNumber((prev) => ({ ...prev, isValid: false }));
     }
   };
 

@@ -1,6 +1,6 @@
 const NUMVERIFY_URL = import.meta.env.VITE_NUMVERIFY_URL;
 
-interface NumveifyResult {
+export interface NumveifyResult {
   valid: boolean;
   location: string;
   carrier: string;
@@ -26,3 +26,5 @@ export async function verifyNumber({
     }
   }
 }
+
+export const NETLIFY_FN_URL = `/.netlify/functions/numVerifyProxy`;
